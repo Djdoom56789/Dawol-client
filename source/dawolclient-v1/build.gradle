@@ -30,7 +30,7 @@ dependencies {
 
 // Loom no longer remaps; the standard jar task is the deliverable.
 jar {
-    archiveFileName = 'dawol.client.v1.jar'
+    archiveFileName = 'dawol.client.v1.3.jar'
     manifest {
         attributes(
             'Implementation-Title'  : 'DawolClient',

@@ -114,7 +114,10 @@ public final class Config {
         Toggles.autoRespawn = bool(props, "player.autoRespawn", Toggles.autoRespawn);
         Toggles.autoEat = bool(props, "player.autoEat", Toggles.autoEat);
         Toggles.autoEatThreshold = intOf(props, "player.autoEatThreshold", Toggles.autoEatThreshold);
-        Toggles.autoTotem = bool(props, "player.autoTotem", Toggles.autoTotem);
+        // Migrate old key into new autoTotemEnabled if new key is absent
+        if (props.containsKey("player.autoTotem") && !props.containsKey("autoTotemV2.enabled")) {
+            Toggles.autoTotemEnabled = bool(props, "player.autoTotem", Toggles.autoTotemEnabled);
+        }
         Toggles.totemCounter = bool(props, "player.totemCounter", Toggles.totemCounter);
         Toggles.autoSprint = bool(props, "player.autoSprint", Toggles.autoSprint);
         Toggles.chestStealer = bool(props, "player.chestStealer", Toggles.chestStealer);
@@ -228,7 +231,6 @@ public final class Config {
         props.setProperty("player.autoRespawn", Boolean.toString(Toggles.autoRespawn));
         props.setProperty("player.autoEat", Boolean.toString(Toggles.autoEat));
         props.setProperty("player.autoEatThreshold", Integer.toString(Toggles.autoEatThreshold));
-        props.setProperty("player.autoTotem", Boolean.toString(Toggles.autoTotem));
         props.setProperty("player.totemCounter", Boolean.toString(Toggles.totemCounter));
         props.setProperty("player.autoSprint", Boolean.toString(Toggles.autoSprint));
         props.setProperty("player.chestStealer", Boolean.toString(Toggles.chestStealer));

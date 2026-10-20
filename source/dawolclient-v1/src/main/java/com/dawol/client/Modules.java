@@ -115,9 +115,6 @@ public final class Modules {
                 () -> Toggles.combatCooldownGate, v -> Toggles.combatCooldownGate = v);
 
         // --- Player ---
-        of("Auto Totem", Module.Category.PLAYER,
-                "Automatically keep a totem of undying in your offhand",
-                () -> Toggles.autoTotem, v -> Toggles.autoTotem = v);
         of("Auto Sprint", Module.Category.PLAYER,
                 "Always sprint when food level is high enough",
                 () -> Toggles.autoSprint, v -> Toggles.autoSprint = v);

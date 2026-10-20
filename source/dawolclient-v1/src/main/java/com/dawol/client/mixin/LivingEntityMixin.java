@@ -17,7 +17,7 @@ public class LivingEntityMixin {
 
     @Inject(
         method = "knockback(DDDLnet/minecraft/world/damagesource/DamageSource;FZ)V",
-        at = @At("HEAD"), cancellable = true
+        at = @At("HEAD"), cancellable = true, require = 0
     )
     private void onKnockback6(double strength, double x, double z, DamageSource source,
             float f, boolean bl, CallbackInfo ci) {
@@ -26,7 +26,7 @@ public class LivingEntityMixin {
 
     @Inject(
         method = "knockback(DDDLnet/minecraft/world/damagesource/DamageSource;F)V",
-        at = @At("HEAD"), cancellable = true
+        at = @At("HEAD"), cancellable = true, require = 0
     )
     private void onKnockback5(double strength, double x, double z, DamageSource source,
             float f, CallbackInfo ci) {

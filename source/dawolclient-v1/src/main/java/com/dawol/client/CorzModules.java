@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+
 /**
  * Modules adapting Corz Client's feature set to this client's constraints.
  *
@@ -32,7 +33,6 @@ public final class CorzModules {
 
     /** Call once per client tick. */
     public static void tick(Minecraft mc) {
-        autoTotem(mc);
         chestStealer(mc);
     }
 
@@ -95,57 +95,4 @@ public final class CorzModules {
         }
     }
 
-    // --- Auto Totem (Corz: "Auto Totem" / "Auto Inventory Totem") ---
-
-    /**
-     * Moves a totem into the offhand when it is empty.
-     *
-     * <p>Uses the {@code SWAP} container action with the offhand slot index, which is the
-     * exact action the vanilla client sends for the F-key offhand swap. Rate limited, and
-     * only fires when the offhand no longer holds a totem, so it does not spam the server.
-     */
-    private static void autoTotem(Minecraft mc) {
-        if (!Toggles.autoTotem || mc.gameMode == null || !ACTION_GATE.readyAuto()) {
-            return;
-        }
-
-        LocalPlayer player = mc.player;
-        if (player == null || player.containerMenu == null) {
-            return;
-        }
-
-        AbstractContainerMenu menu = player.containerMenu;
-
-        // Already covered.
-        if (offhandTotems(mc) > 0) {
-            return;
-        }
-
-        // Find a totem in the player's own inventory and swap it into the offhand. The slot's
-        // backing container is what decides ownership: InventoryMenu has 46 slots (result,
-        // 2x2 grid, 4 armour, 36 main, 1 offhand) while Inventory.getContainerSize() is 41, so
-        // a numeric bound stops short of the hotbar and still scans the result/grid/armour
-        // slots. With a chest open player.containerMenu is the chest menu, where the same
-        // bound could pull a totem straight out of the chest.
-        Inventory inventory = player.getInventory();
-        for (Slot slot : menu.slots) {
-            if (slot.container != inventory) {
-                continue;
-            }
-            ItemStack stack = slot.getItem();
-            if (stack.isEmpty() || stack.getItem() != Items.TOTEM_OF_UNDYING) {
-                continue;
-            }
-
-            // SWAP with button = offhand slot index is the F-key offhand exchange.
-            mc.gameMode.handleContainerInput(
-                    menu.containerId,
-                    slot.index,
-                    Inventory.SLOT_OFFHAND,
-                    ContainerInput.SWAP,
-                    player);
-            // ACTION_GATE.readyAuto() already scheduled the next randomised window.
-            return;
-        }
-    }
 }
